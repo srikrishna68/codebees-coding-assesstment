@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package blog;
+
+option go_package = "./api";
+
+
+service BlogService {
+  rpc CreatePost (Post) returns (PostResponse);
+  rpc ReadPost (PostID) returns (PostResponse);
+  rpc UpdatePost (Post) returns (PostResponse);
+  rpc DeletePost (PostID) returns (DeleteResponse);
+}
+
+message Post {
+  string id = 1;
+  string title = 2;
+  string content = 3;
+}
+
+message PostID {
+  string id = 1;
+}
+
+message PostResponse {
+  Post post = 1;
+  string error = 2;
+}
+
+message DeleteResponse {
+  bool success = 1;
+  string error = 2;
+}
