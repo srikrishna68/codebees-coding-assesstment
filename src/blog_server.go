@@ -7,7 +7,7 @@ import (
 
 	`src/database`
 
-	pb `github.com/srikrishna68/codebees-coding-assesstment/proto/api`
+	pb `github.com/srikrishna68/codebees-coding-assesstment/pb`
 	`google.golang.org/grpc/codes`
 	`google.golang.org/grpc/status`
 )

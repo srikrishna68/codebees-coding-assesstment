@@ -1,6 +1,6 @@
 package database
 
-import pb "github.com/srikrishna68/codebees-coding-assesstment/proto/api"
+import "github.com/srikrishna68/codebees-coding-assesstment/pb"
 
 // LaptopStore is an interface to store laptop
 type BlogStore interface {
