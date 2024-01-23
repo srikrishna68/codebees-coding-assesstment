@@ -7,7 +7,7 @@ import (
 
 	`src/database`
 
-	pb `github.com/srikrishna68/codebees-coding-assesstment/pb`
+	`github.com/srikrishna68/codebees-coding-assesstment/pb`
 	`google.golang.org/grpc/codes`
 	`google.golang.org/grpc/status`
 )
@@ -28,7 +28,7 @@ func (blogServer *BlogServer) CreatePost(ctx context.Context, req *pb.Post) (*pb
 	// Implement create logic
 	// ...
 
-	log.Printf("receive a create-laptop request with id: %s", req.Id)
+	log.Printf("receive a create post request: %s", req.Title)
 
 	if err := contextError(ctx); err != nil {
 		return nil, err
@@ -36,7 +36,7 @@ func (blogServer *BlogServer) CreatePost(ctx context.Context, req *pb.Post) (*pb
 	// Storing post
 	blogServer.blogStore.Save(req)
 
-	log.Printf("saved blog with id: %s", req.Id)
+	log.Printf("saved blog with id: %s", req.Title)
 
 	return &pb.PostResponse{Post: req}, nil
 }
@@ -72,25 +72,25 @@ func (blogServer *BlogServer) DeletePost(ctx context.Context, req *pb.PostID) (*
 	// Example: Deleting post from in-memory
 	// delete(re.posts, req.Id)
 
-	return &pb.DeleteResponse{Success: true}, nil
+	return &pb.DeleteResponse{Status: pb.DeleteResponse_SUCCESS}, nil
 }
 
 func validatePost(post *pb.Post) error {
 	if post.Title == "" || len(post.Title) == 0 {
-		return fmt.Errorf("empty title, title should be provided post content (%s)", post.Content)
+		return fmt.Errorf("empty title, title should be provided (%s)", post.Content)
 	}
 
 	if post.Content == "" || len(post.Content) == 0 {
-		return fmt.Errorf("empty title, title should be provided post content (%s)", post.Content)
+		return fmt.Errorf("empty Content, Content should be provided (%s)", post.Title)
 	}
-	if post == "" || len(post.Author) == 0 {
-		return fmt.Errorf("empty title, title should be provided post content (%s)", post.Content)
+	if post.Author == "" || len(post.Author) == 0 {
+		return fmt.Errorf("empty Author, author should be provided (%s)", post.Author)
 	}
-	if post.Title == "" || len(post.Title) == 0 {
-		return fmt.Errorf("empty title, title should be provided post content (%s)", post.Content)
+	if post.PublicationDate == "" || len(post.Author) == 0 {
+		return fmt.Errorf("empty Author, PublicationDate should be provided (%s)", post.PublicationDate)
 	}
-	if post.Title == "" || len(post.Title) == 0 {
-		return fmt.Errorf("empty title, title should be provided post content (%s)", post.Content)
+	if len(post.Tags) == 0 {
+		return fmt.Errorf("empty tags, tags should be provided(%s)", post.Tags)
 	}
 
 	return nil

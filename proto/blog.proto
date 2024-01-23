@@ -13,11 +13,12 @@ service BlogService {
 }
 
 message Post {
-  string title = 1;
-  string content = 2;
-  string author = 3;
-  string publication_date = 4;
-  repeated string tags = 5;
+  string post_id = 1;
+  string title = 2;
+  string content = 3;
+  string author = 4;
+  string publication_date = 5;
+  repeated string tags = 6;
 }
 
 message PostID {
@@ -32,9 +33,8 @@ message PostResponse {
     ERROR = 2;
   }
   Status status = 1;
-  string post_id = 2;
-  Post post = 3;
-  string error = 4;
+  Post post = 2;
+  string error = 3;
 }
 
 message DeleteResponse {
