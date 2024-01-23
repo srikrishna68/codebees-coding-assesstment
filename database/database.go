@@ -3,6 +3,7 @@ package database
 import (
 	`errors`
 	`fmt`
+	`src/src/utils`
 	`sync`
 
 	"github.com/jinzhu/copier"
@@ -22,6 +23,10 @@ type InMemoryBlogStore struct {
 func (store *InMemoryBlogStore) Save(blog *pb.Post) error {
 	store.mutex.Lock()
 	defer store.mutex.Unlock()
+	uuid, err := utils.GenerateUuid()
+	if err != nil {
+		return err
+	}
 
 	if store.data[blog.Id] != nil {
 		return ErrAlreadyExists
