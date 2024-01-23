@@ -3,7 +3,10 @@ clean:
 	rm swagger/*
 
 gen:
-	protoc --go_out=. --go-grpc_out=. proto/*.proto
+	protoc --go_out=:pb --go-grpc_out=:pb proto/*.proto
 
-run:
-	go run src/main.go
+server:
+	go run grpc/server/main.go
+
+client:
+	go run grpc/client/main.go
