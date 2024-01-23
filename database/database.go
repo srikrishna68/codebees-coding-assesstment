@@ -28,7 +28,7 @@ func (store *InMemoryBlogStore) Save(blog *pb.Post) error {
 		return err
 	}
 
-	if store.data[blog.Id] != nil {
+	if store.data[blog.] != nil {
 		return ErrAlreadyExists
 	}
 
