@@ -13,21 +13,36 @@ service BlogService {
 }
 
 message Post {
-  string id = 1;
-  string title = 2;
-  string content = 3;
+  string title = 1;
+  string content = 2;
+  string author = 3;
+  string publication_date = 4;
+  repeated string tags = 5;
 }
 
 message PostID {
   string id = 1;
 }
 
+
 message PostResponse {
-  Post post = 1;
-  string error = 2;
+  enum Status {
+    UNKNOWN = 0;
+    SUCCESS = 1;
+    ERROR = 2;
+  }
+  Status status = 1;
+  string post_id = 2;
+  Post post = 3;
+  string error = 4;
 }
 
 message DeleteResponse {
-  bool success = 1;
+  enum Status {
+    UNKNOWN = 0;
+    SUCCESS = 1;
+    ERROR = 2;
+  }
+  Status status = 1;
   string error = 2;
 }
