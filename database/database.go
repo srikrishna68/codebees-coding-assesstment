@@ -6,7 +6,7 @@ import (
 	`sync`
 
 	"github.com/jinzhu/copier"
-	pb "github.com/srikrishna68/codebees-coding-assesstment/blog/api"
+	pb "github.com/srikrishna68/codebees-coding-assesstment/proto/api"
 )
 
 // ErrAlreadyExists is returned when a record with the same
