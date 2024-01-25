@@ -14,8 +14,8 @@ type BlogClient struct {
 	service pb.BlogServiceClient
 }
 
-// NewLaptopClient returns a new laptop client
-func NewLaptopClient(cc *grpc.ClientConn) *BlogClient {
+// NewBlogClient returns a new blog client
+func NewBlogClient(cc *grpc.ClientConn) *BlogClient {
 	service := pb.NewBlogServiceClient(cc)
 	return &BlogClient{service}
 }
@@ -33,7 +33,7 @@ func (blogClient *BlogClient) CreatePost(req *pb.Post) (*pb.PostResponse, error)
 		return nil, err
 	}
 
-	log.Printf("created laptop with id: %s", res.Post.PostId)
+	log.Printf("created post with id: %s", res.Post.PostId)
 	return res, nil
 }
 
@@ -50,7 +50,7 @@ func (blogClient *BlogClient) ReadPost(req *pb.PostID) (*pb.PostResponse, error)
 		return nil, err
 	}
 
-	log.Printf("created laptop with id: %s", res.Post.PostId)
+	log.Printf("read post with id: %s", res.Post.PostId)
 	return res, nil
 }
 
@@ -62,12 +62,12 @@ func (blogClient *BlogClient) UpdatePost(req *pb.Post) (*pb.PostResponse, error)
 
 	res, err := blogClient.service.UpdatePost(ctx, req)
 	if err != nil {
-		log.Fatal("cannot create post: ", err)
+		log.Fatal("cannot update post: ", err)
 
 		return nil, err
 	}
 
-	log.Printf("created laptop with id: %s", res.Post.PostId)
+	log.Printf("Updated post with id: %s", res.Post.PostId)
 	return res, nil
 }
 
@@ -79,12 +79,12 @@ func (blogClient *BlogClient) DeletePost(req *pb.PostID) (*pb.DeleteResponse, er
 
 	res, err := blogClient.service.DeletePost(ctx, req)
 	if err != nil {
-		log.Fatal("cannot create post: ", err)
+		log.Fatal("cannot delete post: ", err)
 
 		return nil, err
 	}
 
-	log.Printf("created laptop with id: %s", req.Id)
+	log.Printf("deleted post with id: %s", req.Id)
 
 	return res, nil
 }

@@ -15,20 +15,20 @@ import (
 // ErrAlreadyExists is returned when a record with the same
 var ErrAlreadyExists = errors.New("record already exists")
 
-// InMemoryBlogStore stores laptop in memory
+// InMemoryBlogStore stores posts in memory
 type InMemoryBlogStore struct {
 	mutex sync.RWMutex
 	data  map[string]*pb.Post
 }
 
-// NewInMemoryLaptopStore returns a new InMemoryLaptopStore
+// NewInMemoryBlogStore returns a new InMemoryBlogStore
 func NewInMemoryBlogStore() *InMemoryBlogStore {
 	return &InMemoryBlogStore{
 		data: make(map[string]*pb.Post),
 	}
 }
 
-// Create saves the laptop to the store
+// Create saves the post to the store
 func (store *InMemoryBlogStore) Create(post *pb.Post) (*pb.Post, error) {
 	store.mutex.Lock()
 	defer store.mutex.Unlock()
@@ -101,12 +101,12 @@ func (store *InMemoryBlogStore) Delete(postID string) *pb.DeleteResponse {
 	return response
 }
 
-func deepCopy(laptop *pb.Post) (*pb.Post, error) {
+func deepCopy(post *pb.Post) (*pb.Post, error) {
 	other := &pb.Post{}
 
-	err := copier.Copy(other, laptop)
+	err := copier.Copy(other, post)
 	if err != nil {
-		return nil, fmt.Errorf("cannot copy laptop data: %w", err)
+		return nil, fmt.Errorf("cannot copy post data: %w", err)
 	}
 
 	return other, nil
