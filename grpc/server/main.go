@@ -1,27 +1,40 @@
 package main
 
 import (
-	"fmt"
+	`fmt`
 	`log`
 	`net`
 
+	`github.cisco.com/srikrishna68/codebees-coding-assesstment/pb`
+	`github.cisco.com/srikrishna68/codebees-coding-assesstment/src`
 	"google.golang.org/grpc"
 )
 
-
-
 func main() {
+	log.Println("Hello inside main")
 	// Initialize server
-	s := grpc.NewServer()
-	// pb.RegisterBlogServiceServer(s, &server{posts: make(map[string]*pb.Post)})
+	newBlogStore := src.NewInMemoryBlogStore()
+	blogServer := src.NewBlogServer(newBlogStore)
+	//
+	// lis, err := net.Listen("tcp", ":50051")
+	// if err != nil {
+	// 	log.Fatalf("Failed to listen: %v", err)
+	// }
+	//  _ = runGRPCServer(blogServer, lis)
+	// // Start server
+	//
 
-	// Start server
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
+
+	server := grpc.NewServer()
+	pb.RegisterBlogServiceServer(server, blogServer)
+
 	fmt.Println("Server listening on :50051")
-	if err := s.Serve(lis); err != nil {
+	if err := server.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}
+
 }
