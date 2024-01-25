@@ -20,33 +20,9 @@ func main() {
 	}
 
 	defer conn.Close()
-	c := src.NewLaptopClient(conn)
+	c := src.NewBlogClient(conn)
 
 	testServer(c)
-	// reader := bufio.NewReader(os.Stdin)
-	// fmt.Print("Enter Blog Title: ")
-	// title, _ := reader.ReadString('\n')
-	// title = strings.Trim(title, "\n")
-	// fmt.Print("Enter Blog contents: ")
-	// body, _ := reader.ReadString('\n')
-	// body = strings.Trim(body, "\n")
-	//
-	// ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	// defer cancel()
-
-	// _, err = c.CreatePost(ctx, &pb.Post{
-	// 	Title:           title,
-	// 	Content:         body,
-	// 	Author:          title,
-	// 	PublicationDate: time.DateOnly,
-	// 	Tags:            []string{"1234"},
-	// })
-	// if err != nil {
-	// 	log.Fatalf("Could not create Blog Post :%v", err)
-	// }
-	//
-	// log.Printf("Post Successfully Created")
-
 }
 
 func testServer(blogClient *src.BlogClient) {
