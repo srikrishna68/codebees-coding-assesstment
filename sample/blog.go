@@ -1,14 +1,92 @@
 package sample
 
-import "github.com/srikrishna68/codebees-coding-assesstment/pb"
+import (
+	`time`
 
-// NewCPU returns a new sample CPU
-func NewBlog() *pb.Post {
+	`github.cisco.com/srikrishna68/codebees-coding-assesstment/pb`
+)
 
-	blog := &pb.Post{
-		Title:   "New Book",
-		Content: "ABCD",
+// newPost returns a new sample post
+func NewPost() *pb.Post {
+
+	post := &pb.Post{
+		Title:           "First Title",
+		Content:         "First Title",
+		Author:          "First Author",
+		PublicationDate: time.DateOnly,
+		Tags:            []string{"abc"},
 	}
 
-	return blog
+	return post
+}
+
+func NewInvalidPostNoTitle() *pb.Post {
+
+	post := &pb.Post{
+		Content:         "First Title",
+		Author:          "First Author",
+		PublicationDate: time.DateOnly,
+		Tags:            []string{"abc"},
+	}
+
+	return post
+}
+
+func NewInvalidPostNoContent() *pb.Post {
+
+	post := &pb.Post{
+		Title:           "First Title",
+		Author:          "First Author",
+		PublicationDate: time.DateOnly,
+		Tags:            []string{"abc"},
+	}
+
+	return post
+}
+
+func NewInvalidPostNoAuthor() *pb.Post {
+
+	post := &pb.Post{
+		Title:           "First Title",
+		Content:         "First Title",
+		PublicationDate: time.DateOnly,
+		Tags:            []string{"abc"},
+	}
+
+	return post
+}
+
+func NewInvalidPostNoPublicationDate() *pb.Post {
+
+	post := &pb.Post{
+		Title:           "First Title",
+		Content:         "First Title",
+		Author:          "First Author",
+		Tags:            []string{"abc"},
+	}
+
+	return post
+}
+
+func NewInvalidPostNoTags() *pb.Post {
+
+	post := &pb.Post{
+		Title:           "First Title",
+		Content:         "First Title",
+		Author:          "First Author",
+		PublicationDate: time.DateOnly,
+	}
+
+	return post
+}
+
+func NewUpdatePost() *pb.Post {
+	post := &pb.Post{
+		Title:           "Update Title",
+		Content:         "First Title",
+		Author:          "First Author",
+		Tags:            []string{"abc"},
+	}
+
+	return post
 }

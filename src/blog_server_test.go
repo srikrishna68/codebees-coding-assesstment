@@ -1,54 +1,54 @@
 package src
 
 import (
+	`context`
 	`testing`
+
+	`github.cisco.com/srikrishna68/codebees-coding-assesstment/pb`
+	`github.cisco.com/srikrishna68/codebees-coding-assesstment/sample`
+	`github.com/stretchr/testify/assert`
+	`github.com/stretchr/testify/require`
 	`google.golang.org/grpc/codes`
-	`google.golang.org/grpc/status`
 )
 
 func TestBlogCreatePost(t *testing.T) {
 	t.Parallel()
 
-	laptopNoID := sample.NewLaptop()
-	laptopNoID.Id = ""
-
-	laptopInvalidID := sample.NewLaptop()
-	laptopInvalidID.Id = "invalid-uuid"
-
-	laptopDuplicateID := sample.NewLaptop()
-	storeDuplicateID := service.NewInMemoryLaptopStore()
-	err := storeDuplicateID.Save(laptopDuplicateID)
-	require.Nil(t, err)
-
 	testCases := []struct {
-		name   string
-		laptop *pb.Laptop
-		store  service.LaptopStore
-		code   codes.Code
+		name  string
+		post  *pb.Post
+		store BlogStore
+		code  codes.Code
 	}{
 		{
-			name:   "success_with_id",
-			laptop: sample.NewLaptop(),
-			store:  service.NewInMemoryLaptopStore(),
-			code:   codes.OK,
+			name:  "success_with_id",
+			post:  sample.NewPost(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.OK,
 		},
 		{
-			name:   "success_no_id",
-			laptop: laptopNoID,
-			store:  service.NewInMemoryLaptopStore(),
-			code:   codes.OK,
+			name:  "success_no_title",
+			post:  sample.NewInvalidPostNoTitle(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.Unavailable,
 		},
 		{
-			name:   "failure_invalid_id",
-			laptop: laptopInvalidID,
-			store:  service.NewInMemoryLaptopStore(),
-			code:   codes.InvalidArgument,
+			name:  "success_no_author",
+			post:  sample.NewInvalidPostNoAuthor(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.Unavailable,
 		},
 		{
-			name:   "failure_duplicate_id",
-			laptop: laptopDuplicateID,
-			store:  storeDuplicateID,
-			code:   codes.AlreadyExists,
+			name:  "success_no_tags",
+			post:  sample.NewInvalidPostNoTags(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.Unavailable,
+		},
+		{
+			name:  "success_no_tags",
+			post:  sample.NewInvalidPostNoTags(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.Unavailable,
 		},
 	}
 
@@ -58,26 +58,98 @@ func TestBlogCreatePost(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 
-			req := &pb.CreateLaptopRequest{
-				Laptop: tc.laptop,
-			}
-
-			server := service.NewLaptopServer(tc.store, nil, nil)
-			res, err := server.CreateLaptop(context.Background(), req)
+			server := NewBlogServer(tc.store)
+			res, err := server.CreatePost(context.Background(), tc.post)
 			if tc.code == codes.OK {
-				require.NoError(t, err)
-				require.NotNil(t, res)
-				require.NotEmpty(t, res.Id)
-				if len(tc.laptop.Id) > 0 {
-					require.Equal(t, tc.laptop.Id, res.Id)
-				}
+				assert.Nil(t, err)
+				assert.NotNil(t, res)
+				assert.NotEmpty(t, res.Post.PostId)
 			} else {
-				require.Error(t, err)
+				assert.NotNil(t, err)
 				require.Nil(t, res)
-				st, ok := status.FromError(err)
-				require.True(t, ok)
-				require.Equal(t, tc.code, st.Code())
 			}
 		})
+
+	}
+}
+
+func TestBlogUpdatePost(t *testing.T) {
+	t.Parallel()
+
+	testCases := []struct {
+		name  string
+		post  *pb.Post
+		store BlogStore
+		code  codes.Code
+	}{
+		{
+			name:  "success",
+			post:  sample.NewUpdatePost(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.OK,
+		},
+		{
+			name:  "success_publication_should not be added",
+			post:  sample.NewPost(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.Unavailable,
+		},
+		{
+			name:  "success_no_title",
+			post:  sample.NewInvalidPostNoTitle(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.Unavailable,
+		},
+		{
+			name:  "success_no_author",
+			post:  sample.NewInvalidPostNoAuthor(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.Unavailable,
+		},
+		{
+			name:  "success_no_tags",
+			post:  sample.NewInvalidPostNoTags(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.Unavailable,
+		},
+		{
+			name:  "success_no_tags",
+			post:  sample.NewInvalidPostNoTags(),
+			store: NewInMemoryBlogStore(),
+			code:  codes.Unavailable,
+		},
+	}
+
+	for i := range testCases {
+		tc := testCases[i]
+
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
+			server := NewBlogServer(tc.store)
+			createResponse, err := server.CreatePost(context.Background(), sample.NewPost())
+			assert.Nil(t, err)
+			assert.NotNil(t, createResponse)
+			readBeforeUpdate, err := server.ReadPost(context.Background(), &pb.PostID{Id: createResponse.Post.PostId})
+			assert.Nil(t, err)
+			assert.Equal(t, sample.NewPost().PublicationDate, readBeforeUpdate.Post.PublicationDate)
+
+			tc.post.PostId = createResponse.Post.PostId
+			updateResponse, err := server.UpdatePost(context.Background(), tc.post)
+			if tc.code == codes.OK {
+				assert.Nil(t, err, "error should be empty")
+				assert.Nil(t, err)
+				assert.NotEqualValues(t, createResponse.Post.Title, updateResponse.Post.Title)
+
+				readAfterUpdate, err := server.ReadPost(context.Background(), &pb.PostID{Id: readBeforeUpdate.Post.PostId})
+				assert.Nil(t, err)
+				assert.Equal(t, tc.post.Title, readAfterUpdate.Post.Title)
+
+			} else {
+				assert.NotNil(t, err)
+				require.Nil(t, updateResponse)
+			}
+		})
+
 	}
 }
