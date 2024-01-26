@@ -4,8 +4,9 @@ import (
 	`context`
 	`testing`
 
-	`github.cisco.com/srikrishna68/codebees-coding-assesstment/pb`
-	`github.cisco.com/srikrishna68/codebees-coding-assesstment/sample`
+	`codebees-coding-assesstment/pb`
+	`codebees-coding-assesstment/sample`
+
 	`github.com/stretchr/testify/assert`
 	`github.com/stretchr/testify/require`
 	`google.golang.org/grpc/codes`

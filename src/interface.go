@@ -1,6 +1,6 @@
 package src
 
-import "github.cisco.com/srikrishna68/codebees-coding-assesstment/pb"
+import "codebees-coding-assesstment/pb"
 
 // BlogStore is an interface to store posts
 type BlogStore interface {

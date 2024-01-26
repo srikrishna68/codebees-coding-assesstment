@@ -5,7 +5,8 @@ import (
 	`fmt`
 	`log`
 
-	`github.cisco.com/srikrishna68/codebees-coding-assesstment/pb`
+	`codebees-coding-assesstment/pb`
+
 	`google.golang.org/grpc/codes`
 	`google.golang.org/grpc/status`
 )

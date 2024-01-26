@@ -1,4 +1,4 @@
-module github.cisco.com/srikrishna68/codebees-coding-assesstment
+module codebees-coding-assesstment
 
 go 1.21.3
 
