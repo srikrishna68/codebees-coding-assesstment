@@ -5,8 +5,9 @@ import (
 	`log`
 	`net`
 
-	`github.cisco.com/srikrishna68/codebees-coding-assesstment/pb`
-	`github.cisco.com/srikrishna68/codebees-coding-assesstment/src`
+	`codebees-coding-assesstment/pb`
+	`codebees-coding-assesstment/src`
+
 	"google.golang.org/grpc"
 )
 

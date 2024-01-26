@@ -3,7 +3,7 @@ package sample
 import (
 	`time`
 
-	`github.cisco.com/srikrishna68/codebees-coding-assesstment/pb`
+	`codebees-coding-assesstment/pb`
 )
 
 // newPost returns a new sample post
@@ -59,10 +59,10 @@ func NewInvalidPostNoAuthor() *pb.Post {
 func NewInvalidPostNoPublicationDate() *pb.Post {
 
 	post := &pb.Post{
-		Title:           "First Title",
-		Content:         "First Title",
-		Author:          "First Author",
-		Tags:            []string{"abc"},
+		Title:   "First Title",
+		Content: "First Title",
+		Author:  "First Author",
+		Tags:    []string{"abc"},
 	}
 
 	return post
@@ -82,10 +82,10 @@ func NewInvalidPostNoTags() *pb.Post {
 
 func NewUpdatePost() *pb.Post {
 	post := &pb.Post{
-		Title:           "Update Title",
-		Content:         "First Title",
-		Author:          "First Author",
-		Tags:            []string{"abc"},
+		Title:   "Update Title",
+		Content: "First Title",
+		Author:  "First Author",
+		Tags:    []string{"abc"},
 	}
 
 	return post

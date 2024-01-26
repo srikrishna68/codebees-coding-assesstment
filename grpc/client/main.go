@@ -3,9 +3,10 @@ package main
 import (
 	"log"
 
-	`github.cisco.com/srikrishna68/codebees-coding-assesstment/pb`
-	`github.cisco.com/srikrishna68/codebees-coding-assesstment/sample`
-	`github.cisco.com/srikrishna68/codebees-coding-assesstment/src`
+	`codebees-coding-assesstment/pb`
+	`codebees-coding-assesstment/sample`
+	`codebees-coding-assesstment/src`
+
 	"google.golang.org/grpc"
 )
 

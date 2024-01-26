@@ -6,9 +6,10 @@ import (
 	`log`
 	`sync`
 
-	`github.cisco.com/srikrishna68/codebees-coding-assesstment/src/utils`
+	`codebees-coding-assesstment/src/utils`
 
-	"github.cisco.com/srikrishna68/codebees-coding-assesstment/pb"
+	"codebees-coding-assesstment/pb"
+
 	"github.com/jinzhu/copier"
 )
 
